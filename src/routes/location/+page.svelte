@@ -15,7 +15,7 @@
 </script>
 
 <svelte:head>
-    <title>Conduit</title>
+    <title>Location API</title>
 </svelte:head>
 <div class="home-page">
     {#if data.user.role === 'admin'}
