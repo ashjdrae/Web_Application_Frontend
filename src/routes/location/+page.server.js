@@ -29,13 +29,13 @@ export const actions ={
                     },
                     filmType: data.get('filmType'),
                     filmProducerName: data.get('filmProducerName'),
-                    endDate: data.get('endDate'),
+                    endDate: new Date(data.get('endDate')),
                     filmName: data.get('filmName'),
                     district: data.get('district'),
                     sourceLocationId: data.get('sourceLocationId'),
                     filmDirectorName: data.get('filmDirectorName'),
                     address: data.get('address'),
-                    startDate: data.get('startDate'),
+                    startDate: new Date(data.get('startDate')),
                     year: data.get('year'),
         
                 };
