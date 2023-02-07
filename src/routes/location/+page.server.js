@@ -54,6 +54,26 @@ export const actions ={
 	},
 
 	editLocation: async ({ cookies,url }) => {
-                const id = url.searchParams.get('id');
+        const id = url.searchParams.get('id');
+        const data = await request.formData();
+
+        const location = {
+            filmName: data.get('filmName'),
+            filmType: data.get('filmType'),
+            filmProducerName: data.get('filmProducerName'),
+            endDate: new Date(data.get('endDate')),
+            district: data.get('district'),
+            geolocation:{
+                coordinates: [parseFloat(data.get('lattitude')),parseFloat(data.get('longitude'))],
+                type: "Point"
+            },
+            sourceLocationId: data.get('sourceLocationId'),
+            filmDirectorName: data.get('filmDirectorName'),
+            address: data.get('address'),
+            startDate: new Date(data.get('startDate')),
+            year: data.get('year'),
+        };
+
+        await api.patch(`locations/${id}`, location, cookies.get('token'));
             },
 };
