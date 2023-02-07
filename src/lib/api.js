@@ -1,7 +1,6 @@
 import { error } from '@sveltejs/kit';
 
-const base = 'https://api.realworld.io/api';
-
+const base = 'http://localhost:3000';
 async function send({ method, path, data, token }) {
 	const opts = { method, headers: {} };
 
@@ -11,7 +10,7 @@ async function send({ method, path, data, token }) {
 	}
 
 	if (token) {
-		opts.headers['Authorization'] = `Token ${token}`;
+		opts.headers['Authorization'] = `Bearer ${token}`;
 	}
 
 	const res = await fetch(`${base}/${path}`, opts);

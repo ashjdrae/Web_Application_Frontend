@@ -14,19 +14,15 @@ export const actions = {
 
 		const user = {
 			username: data.get('username'),
-			email: data.get('email'),
 			password: data.get('password')
 		};
 
-		const body = await api.post('users', { user });
+		const body = await api.post('users/register', user);
 
 		if (body.errors) {
 			return fail(401, body);
 		}
-
-		const value = btoa(JSON.stringify(body.user));
-		cookies.set('jwt', value, { path: '/' });
-
-		throw redirect(307, '/');
+		throw redirect(307, '/login');
 	}
 };
+

@@ -2,29 +2,29 @@ import { fail, redirect } from '@sveltejs/kit';
 import * as api from '$lib/api.js';
 
 /** @type {import('./$types').PageServerLoad} */
-export async function load({ locals }) {
-	if (locals.user) throw redirect(307, '/');
+export async function load({ parent }) {
+    const { user_ } = await parent();
+    if (user_) throw redirect(307, '/');
 }
 
 /** @type {import('./$types').Actions} */
 export const actions = {
-	default: async ({ cookies, request }) => {
-		const data = await request.formData();
+    default: async ({ cookies, request }) => {
+        const data = await request.formData();
 
-		const body = await api.post('users/login', {
-			user: {
-				email: data.get('email'),
-				password: data.get('password')
-			}
-		});
+        const user_ = {
+            username: data.get('username'),
+            password: data.get('password')
+        };
 
-		if (body.errors) {
-			return fail(401, body);
-		}
+        const body = await api.post('users/login', user_);
 
-		const value = btoa(JSON.stringify(body.user));
-		cookies.set('jwt', value, { path: '/' });
+        if (body.errors) {
+            return fail(401, body);
+        }
+        const value = body.jwt;
+        cookies.set('jwt', value, { path: '/' });
 
-		throw redirect(307, '/');
-	}
+        throw redirect(307, '/location');
+    }
 };
